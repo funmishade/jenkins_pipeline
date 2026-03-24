@@ -1,12 +1,10 @@
-package com.example;
+import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-class AppTest {
+public class AppTest {
 
     @Test
-    void testApp() {
+    public void testApp() {
         assertTrue(true);
     }
 }
