@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+
+    stages {
+        stage("test") {
+            steps {
+                script {
+                    // Testing stage
+                    echo "Testing the application...."
+                }
+            }
+        }
+
+        stage("build") {
+            when {
+                expression {
+                    // Only run on main branch
+                    return BRANCH_NAME == "main"
+                }
+            }
+            steps {
+                script {
+                    echo "Building the application...."
+                }
+            }
+        }
+    }
+}
