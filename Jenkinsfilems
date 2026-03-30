@@ -5,8 +5,8 @@ pipeline {
         stage("test") {
             steps {
                 script {
-                    // Testing stage
                     echo "Testing the application...."
+                    echo "Executing pipeline for branch: ${BRANCH_NAME}"
                 }
             }
         }
@@ -14,13 +14,25 @@ pipeline {
         stage("build") {
             when {
                 expression {
-                    // Only run on main branch
                     return BRANCH_NAME == "main"
                 }
             }
             steps {
                 script {
                     echo "Building the application...."
+                }
+            }
+        }
+
+        stage("deploy") {
+            when {
+                expression {
+                    return BRANCH_NAME == "main"
+                }
+            }
+            steps {
+                script {
+                    echo "Deploying the application...."
                 }
             }
         }
