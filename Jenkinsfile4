@@ -1,0 +1,47 @@
+def gv
+
+pipeline {
+    agent any
+
+    tools {
+        maven 'maven-3.9'
+    }
+
+    parameters {
+        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: '')
+    }
+
+    stages {
+        stage("init") {
+            steps {
+                script {
+                    gv = load 'script.groovy3'
+                }
+            }
+        }
+
+        stage("build jar") {
+            steps {
+                script {
+                    gv.buildJar()
+                }
+            }
+        }
+
+        stage("build image") {
+            steps {
+                script {
+                    gv.buildImage()
+                }
+            }
+        }
+
+        stage("deploy") {
+            steps {
+                script {
+                    gv.deployApp(params.VERSION)
+                }
+            }
+        }
+    }
+}
