@@ -1,0 +1,36 @@
+pipeline {
+	agent any
+	tools {
+		maven 'maven-3.9'
+	}
+	stages {
+		stage("build jar") {
+			steps {
+				script {
+					echo "Building application"
+					sh 'mvn package'
+				}
+			}
+		}
+
+		stage("build image") {
+			steps {
+				script {
+					echo "Building applidocker image"
+					withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+						sh "docker build -t funmishade/demo-app:jma-2.0 .
+						sh 'echo $PASS | docker login -u $USER -p --password-stdin'
+						sh 'docker push funmishade/demo-app:jma-2.0'
+						
+				}
+			}
+		}
+		stage("deploy") {
+			steps {
+				script {
+					echo "Deploying application"
+				}
+			}
+		}
+	}
+}
