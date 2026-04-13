@@ -1,11 +1,13 @@
 @Library('jenkins-shared-library') _
 def gv
 
-pipeline {   
+pipeline {
     agent any
+
     tools {
         maven 'maven-3.9'
     }
+
     stages {
         stage("init") {
             steps {
@@ -14,19 +16,21 @@ pipeline {
                 }
             }
         }
+
         stage("build jar") {
             steps {
                 script {
                     buildJar()
-
                 }
             }
         }
 
-        stage("build image") {
+        stage("build and push image") {
             steps {
                 script {
-                    buildImage()
+                    buildImage 'funmishade/demo-app:jma-3.0'
+                        dockerLogin()
+                        dockerPush 'funmishade/demo-app:jma-3.0'
                 }
             }
         }
@@ -37,6 +41,6 @@ pipeline {
                     gv.deployApp()
                 }
             }
-        }               
+        }
     }
-} 
+}
