@@ -50,7 +50,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(
-                        credentialsId: 'GITHUB',
+                        credentialsId: 'GITHUB_WEBHOOK',
                         usernameVariable: 'USER',
                         passwordVariable: 'PASS'
                     )]) {
