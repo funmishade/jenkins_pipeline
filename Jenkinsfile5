@@ -46,6 +46,31 @@ pipeline {
             }
         }
 
+        stage("commit version update") {
+            steps {
+                script {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'GITHUB',
+                        usernameVariable: 'USER',
+                        passwordVariable: 'PASS'
+                    )]) {
+                        sh '''
+                            git config user.name "funmishade"
+                            git config user.email "2244deborah@gmail.com"
+                            git status
+                            git branch
+                            git config --list
+                        '''
+
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/funmishade/java-maven-app.git"
+                        sh "git add ."
+                        sh "git commit -m 'Increment version to ${env.IMAGE_NAME}' || true"
+                        sh "git push origin HEAD:main"
+                    }
+                }
+            }
+        }
+
         stage("deploy") {
             steps {
                 script {
