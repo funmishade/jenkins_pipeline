@@ -19,6 +19,8 @@ pipeline {
             steps {
                 script {
                     echo "Building docker image"
+                    echo "Building docker imageQQQQQ"
+
 
                     withCredentials([usernamePassword(
                         credentialsId: 'dockerhub',
